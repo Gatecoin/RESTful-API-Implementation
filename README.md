@@ -1,4 +1,4 @@
 api
 ===
 
-implementation details for the gatecoin API
+implementation details for the gatecoin Http API
