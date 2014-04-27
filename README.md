@@ -31,7 +31,7 @@ __*Short term API Key*__: An API Key generated at successful login by the user t
 
 The user can login to the system through the API in the path /Login by passing username and password in a POST request. For example: `http://api.gatecoin.com/v1/Login?UserName=toto1&Password=password`
 The json string below will be returned on successful login:
-```
+```json
 {
   "isSuccess": true,
   "apiKey": "20D04UG394D42FYJUGVIJ7AB9F5F43AF",
