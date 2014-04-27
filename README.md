@@ -34,11 +34,15 @@ The json string below will be returned on successful login:
 ```json
 {
   "isSuccess": true,
-  "apiKey": "20D04UG394D42FYJUGVIJ7AB9F5F43AF",
-  "userId": 1,
-  "userName": "toto1",
+  "apiKey": "A19DC6BE417615645646216D8589D9818",
+  "publicKey": "6967615654684689A7E8FD41E5AB3C6DD",
+  "alias": "alias1",
+  "defaultCurrency": "BTCUSD",
+  "defaultLanguage": "en-us",
+  "verifLevel": 3,
+  "userHasUnreadTickets": false,
+  "lastLogonTime": "/Date(1398609192000-0500)/",
   "responseStatus": {
-    "errorCode": "200",
     "message": "OK"
   }
 }
