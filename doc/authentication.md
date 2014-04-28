@@ -35,12 +35,11 @@ The qrCode is in jpeg format with base64 encoding.
 Launch Google Authenticator on the phone.
 
 
-###5. Add an account
+Add an account by scanning a QRcode : click "Open QRCode" in swagger, a QRcode will show up. 
+Otherwise enter the secret key manually, the secret key is the "secretkey" response from previous request.
 
-Add an account by scanning a QRcode, click "Open QRCode" in swagger, a QRcode will show up. Otherwise enter the secret key manually, the secret key is the "secretkey" response from previous request.
 
-
-###6. In the API
+###5. Activate the option in the API
 
 The `PUT /Accounts/VerifDetail` shows which request can enable google auth. 
 
