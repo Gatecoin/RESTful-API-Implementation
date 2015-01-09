@@ -29,7 +29,10 @@ __*Short term API Key*__: An API Key generated at successful login by the user t
 
 ##System Login
 
-The user can login to the system through the API in the path /Login by passing username and password in a POST request. For example: `http://api.gatecoin.com/v1/Login?UserName=toto1&Password=password`
+The user can login to the system through the API in the path /Login by passing username and password in a POST request. For example: `http://api.gatecoin.com/v1/Login` with json data 
+```json
+{ UserName : "gtcuser", Password : "oassword" }
+```
 The json string below will be returned on successful login:
 ```json
 {
@@ -41,7 +44,8 @@ The json string below will be returned on successful login:
   "defaultLanguage": "en-us",
   "verifLevel": 3,
   "userHasUnreadTickets": false,
-  "lastLogonTime": "/Date(1398609192000-0500)/",
+  "lastLogonTime": "1420791056",
+  "isPendingUnlockSecret": false,
   "responseStatus": {
     "message": "OK"
   }
@@ -50,12 +54,9 @@ The json string below will be returned on successful login:
 
 *isSuccess*: *true* if success, otherwise *false*
 
-*apiKey*: The API Key for signature, also stored in cookie `COOKIE_API_KEY`. The API Key will be expired after 10 mins. The expiry date of API Key will be refreshed after each successful private API function call for up to 24 hour after creation.
+*apiKey*: The API Key will be expired after 15 mins. The expiry date of API Key will be refreshed after each successful private API function call for up to 24 hour after creation.
 
-For example, for an API Key created on `2013-11-01 07:00:00`, it will be expired on `2013-11-01 07:10:00`. If there is a private API function call at `2013-11-01 07:02:00`, the expiry date will be extended to `2013-11-01 07:12:00`. But the API Key will expire on `2013-11-02 07:00:00` no matter how many times the API Key was refreshed.
-
-*userId*: The unique id for user, also stored in cookie `COOKIE_API_USER_ID`
-
+For example, for an API Key created on `2013-11-01 07:00:00`, it will be expired on `2013-11-01 07:15:00`. If there is a private API function call at `2013-11-01 07:02:00`, the expiry date will be extended to `2013-11-01 07:17:00`. But the API Key will expire on `2013-11-02 07:00:00` no matter how many times the API Key was refreshed.
 
 ##Requested Signature
 
@@ -71,50 +72,37 @@ The code below demonstrate how to send required header using ajax:
 
 ```javascript
 $.ajaxSetup({
-    beforeSend: function (jqXHR, settings) {
-   	 var userId = getCookie("COOKIE_API_USER_ID");
-   	 var key = getCookie("COOKIE_API_KEY");
-   	 if (userId != "" && key != "") {
-   		 var url = settings.url;
-   		 if (url.indexOf(location.host) < 0) {
-   			 url = location.protocol + "//" + location.host + url;
-   		 }
-   		 var now = new Date(Date.now()).toUTCString();
-   		 var httpMethod = settings.type;
-   		 var contentType = (httpMethod == "GET") ? "" : settings.contentType;
-   		 var message = settings.type + url + contentType + now;
-   		 var hash = CryptoJS.HmacSHA256(message.toLowerCase(), key);
-   		 var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
-   		 jqXHR.setRequestHeader("API_USER_ID", userId);
-   		 jqXHR.setRequestHeader("API_REQUEST_SIGNATURE", hashInBase64);
-   		 jqXHR.setRequestHeader("API_REQUEST_DATE", now);
-   	 }
-    }
-});
+	beforeSend: function (jqXHR, settings) {
+		var publicKey = $("#input_public_key").val();
+		var key = $("#input_key").val();
+		if (publicKey == "") {
+			publicKey = gPublicKey; // gPublicKey is a variable stored the publicKey when login
+		}
+		if (key == "") {
+			key = gApiKey; // gApiKey is a variable stored the apiKey when login
+		}
+		if (publicKey != null && key != null) {
+			var now = (new Date(Date.now())).getTime() / 1000;
+			var httpMethod = settings.type;
+			var ct = settings.contentType;
+			if (ct == false) {
+				ct = "multipart/form-data";
+			}
+			var contentType = (httpMethod == "GET") ? "" : ct;
+			var message = settings.type + settings.url + contentType + now;
+			var hash = CryptoJS.HmacSHA256(message.toLowerCase(), key);
+			var hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
 
-function getCookie(c_name) {
-    var c_value = document.cookie;
-    var c_start = c_value.indexOf(" " + c_name + "=");
-    if (c_start == -1) {
-   	 c_start = c_value.indexOf(c_name + "=");
-    }
-    if (c_start == -1) {
-   	 c_value = null;
-    }
-    else {
-   	 c_start = c_value.indexOf("=", c_start) + 1;
-   	 var c_end = c_value.indexOf(";", c_start);
-   	 if (c_end == -1) {
-   		 c_end = c_value.length;
-   	 }
-   	 c_value = unescape(c_value.substring(c_start, c_end));
-    }
-    return c_value;
-};
+			jqXHR.setRequestHeader("API_PUBLIC_KEY", publicKey);
+			jqXHR.setRequestHeader("API_REQUEST_SIGNATURE", hashInBase64);
+			jqXHR.setRequestHeader("API_REQUEST_DATE", now);
+		}
+	}
+});
 ```
 ##System Logout
 
-The user can logout from the system through the API in the path /Logout. All short term API Key will be removed from the system. The cookies `COOKIE_API_KEY` and `COOKIE_API_USER_ID` will also be removed.
+The user can logout from the system through the API in the path /Logout. All short term API Key will be removed from the system.
 
 
 
