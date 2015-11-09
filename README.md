@@ -1,7 +1,7 @@
 API
 ===
 
-Implementation details for the gatecoin Http API
+Implementation details for the Gatecoin Http API
 
 ---
 
@@ -14,9 +14,9 @@ __*Private*__: Only http request with required headers can execute the API funct
 
 ##Required Headers
 
-`API_USER_ID`: The unique id for the user, can be obtained after login
+`API_PUBLIC_KEY`: The public key which can be obtained after login. Alternatively, the API key can also be generated at:  https://gatecoin.com/login?path=%2Fplatform%2FapiKeyManagement
 
-`API_REQUEST_SIGNATURE`: An valid API Signature signed with API key in HMAC
+`API_REQUEST_SIGNATURE`: A valid API Signature signed with API key in HMAC
 
 `API_REQUEST_DATE`: The datetime of request in UTC format
 
@@ -29,7 +29,7 @@ __*Short term API Key*__: An API Key generated at successful login by the user t
 
 ##System Login
 
-The user can login to the system through the API in the path /Login by passing username and password in a POST request. For example: `http://api.gatecoin.com/v1/Login` with json data 
+The user can login to the system through the API in the path /Auth/Login by passing username and password in a POST request. For example: `https://www.gatecoin.com/api/Auth/Login` with json data 
 ```json
 { UserName : "gtcuser", Password : "oassword" }
 ```
@@ -76,10 +76,10 @@ $.ajaxSetup({
 		var publicKey = $("#input_public_key").val();
 		var key = $("#input_key").val();
 		if (publicKey == "") {
-			publicKey = gPublicKey; // gPublicKey is a variable stored the publicKey when login
+			publicKey = gPublicKey; // gPublicKey is a variable which stores the publicKey when login
 		}
 		if (key == "") {
-			key = gApiKey; // gApiKey is a variable stored the apiKey when login
+			key = gApiKey; // gApiKey is a variable which stores the apiKey when login
 		}
 		if (publicKey != null && key != null) {
 			var now = (new Date(Date.now())).getTime() / 1000;
