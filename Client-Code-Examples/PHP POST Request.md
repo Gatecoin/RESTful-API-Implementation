@@ -1,0 +1,27 @@
+API: POST Trade/Orders
+
+$publicKey =’’;              
+$secretKey = ‘’;           
+
+ $request_type = 'POST';
+  $uri='https://www.gatecoin.com/api/Trade/Orders';
+    $nonce=microtime(true);
+
+    if (strcasecmp($request_type, 'POST') ==0 ) {
+        $ct = 'application/json';
+    } else {
+        $ct = '';
+    }
+    $message = $request_type . $uri . $ct . $nonce;
+    $hash = hash_hmac('sha256', strtolower($message), $secretKey, true); 
+    $hashInBase64 = base64_encode($hash);
+
+   $curl_post_data = array('code'=>'BTCUSD','way'=>'bid','amount'=>1,'price'=>200);
+
+    $ch = curl_init($uri);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($curl_post_data));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('API_REQUEST_SIGNATURE:' . $hashInBase64, 'API_REQUEST_DATE:' . $nonce, 'API_PUBLIC_KEY:' . $publicKey,'Content-type:     application/json'));
+
+    $res = curl_exec($ch);
+    print($res);
