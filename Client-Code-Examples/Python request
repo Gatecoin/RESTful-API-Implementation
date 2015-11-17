@@ -1,0 +1,100 @@
+Example for follownig APIs:
+GET Balance/Balances
+POST Trade/Orders
+
+  #!/usr/bin/python3
+  
+  import time
+  import base64
+  import hmac
+  import urllib
+  import requests
+  import hashlib
+  import json
+  
+  class Gatecoin:
+  def __init__(self):
+  self.key = ""
+  self.secret = ""
+  self.apiUrl = "https://gatecoin.com/api/"
+  
+  
+  def _send_request(self, command, httpMethod, params={}):
+          
+  now = str(time.time())
+  contentType = "" if httpMethod == "GET" else "application/json"
+  
+  if command == "MarketDepth":
+  url = self.apiUrl + "Public/" + command + "/" + self.market
+  else:
+  url = self.apiUrl + command
+  
+  message = httpMethod + url + contentType + now
+  message = message.lower()
+  
+  signature = hmac.new(self.secret.encode(), msg=message.encode(), digestmod=hashlib.sha256).digest()
+  hashInBase64 = base64.b64encode(signature, altchars=None)
+
+  headers = {
+      'API_PUBLIC_KEY': self.key,
+      'API_REQUEST_SIGNATURE': hashInBase64,
+      'API_REQUEST_DATE': now,
+      'Content-Type':'application/json'
+  }
+
+  data = None
+
+  if httpMethod == "DELETE":
+      R = requests.delete
+  elif httpMethod == "GET":
+      R = requests.get
+  elif httpMethod == "POST":
+      R = requests.post          
+      data = json.dumps(params)
+
+  print("command: %r" % command)
+  print("url: %r" % url)
+  print("headers: %r" % headers)
+  print("params: %r" % params)
+  print("message: %r" % message)
+  print("data: %r\n" % data)
+
+  response = R(url, data=data, headers=headers)
+
+  print("response: %r\n" % response.content)
+
+  return response.json()
+
+
+  def buy(self, amount, price):
+  return self.place_order(str(amount), str(price), "BID")
+
+
+  def sell(self, amount, price):
+  return self.place_order(str(amount), str(price), "ASK")
+
+
+  def place_order(self, amount, price, type):
+  data = {'Code': 'BTCUSD', 'Way': type, 'Amount': amount, 'Price': price}
+  return self._send_request("Trade/Orders", "POST", data)
+
+
+  def get_balance(self):
+  return self._send_request("Balance/Balances", "GET")
+
+
+
+  if __name__ == "__main__":
+  m = Gatecoin()
+
+  #print(m.get_balance())
+
+  print(m.sell("1", "500"))
+  print(m.buy("1", "0.001"))
+
+
+
+
+
+
+
