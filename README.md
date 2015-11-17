@@ -4,12 +4,16 @@ API
 Implementation details for the Gatecoin Http API
 
 ---
+##General Usage
+
+All API requests should be directed to https://www.gatecoin.com/api.
+
 
 ##API Accessibility
 
-__*Public*__: Everyone can execute the API functions through http without authentication
+__*Public*__: Everyone can execute the API functions through http without authentication. All public APIs are prefixed by "/Public". Eg. https://www.gatecoin.com/api/Public/MarketDepth/{CurrencyPair}
 
-__*Private*__: Only http request with required headers can execute the API function
+__*Private*__: Only http requests with required headers can execute the API function.
 
 
 ##Required Headers
@@ -23,7 +27,7 @@ __*Private*__: Only http request with required headers can execute the API funct
 
 ##API Key
 
-__*Long term API Key*__: An API Key generated on demand by the user *(using the /GetAPIKey function)*, valid until expiry date or deleted by user. Will not be removed upon logout.
+__*Long term API Key*__: An API Key generated on demand by the user *(using the /APIKey/APIKey function)*, valid until expiry date or deleted by user. Will not be removed upon logout.
 
 __*Short term API Key*__: An API Key generated at successful login by the user to the system through the API.
 
