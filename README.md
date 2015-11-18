@@ -103,6 +103,12 @@ $.ajaxSetup({
 		}
 	}
 });
+
+Please check out the folder Client-Code-Examples for more examples in different programming languages.
+```
+## Response 
+Please visit the page https://gatecoin.com/api/swagger-ui/index.html#!/Public for trying out the API and checking the JSON response from server.
+
 ```
 ##System Logout
 
