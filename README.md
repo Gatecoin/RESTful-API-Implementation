@@ -109,7 +109,6 @@ Please check out the folder Client-Code-Examples for more examples in different 
 ## Response 
 Please visit the page https://gatecoin.com/api/swagger-ui/index.html#!/Public for trying out the API and checking the JSON response from server.
 
-```
 ##System Logout
 
 The user can logout from the system through the API in the path /Logout. All short term API Key will be removed from the system.
