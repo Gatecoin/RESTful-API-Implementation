@@ -7,7 +7,8 @@ Implementation details for the Gatecoin Http API
 ##General Usage
 
 All API requests should be directed to https://www.gatecoin.com/api.
-
+Please find the list of all APIs here: https://www.gatecoin.com/api/swagger-ui/index.html#!. 
+All input parameters(if any), with a POST request, need to be encoded in JSON format.
 
 ##API Accessibility
 
