@@ -121,21 +121,8 @@ Applicable to:
 
 ```
 GET /Balance/Balances : Gets the available balance for each currency for the logged in account.
-GET /Balance/Deposits : Get all account deposits, including wire, okpay and digital currency, of the logged in user
-GET /Balance/Withdrawals:  Get all account withdrawals, including wire, okpay digital currency, of the logged in user
 GET /Balance/Balances/{Currency}:  Gets the available balance for s currency for the logged in account.
 ```
-
-**Login**
-
-Maximum allowed requests per minute: 10 
-
-Applicable to:
-
-```
-POST /Auth/Login:  Trader session log in.
-```
-
 **Order**
 
 Maximum allowed requests per minute: 150 
@@ -144,61 +131,30 @@ Applicable to:
 
 ```
 GET /Trade/Orders:  Gets open orders for the logged in trader.
+GET /Trade/Orders/{OrderID}:  Gets an order for the logged in trader.
 POST /Trade/Orders:  Place an order at the exchange.
-DELETE /Trade/Orders:  Cancels all existing order
+DELETE /Trade/Orders:  Cancels all existing order.
+DELETE /Trade/Orders/{OrderID}:  Cancels an existing order.
+POST /Trade/QuickChange/Quote: Request a quote for quick order.
+POST /Trade/QuickChange: Place a quick order to trade again market maker.
+POST /Trade/StopOrders:  Place a stop order at the exchange.
 GET /Trade/StopOrders:  Gets all stop orders for the logged in trader. Max 1000 record.
 GET /Trade/StopOrdersHistory:  Gets all stop orders for the logged in trader. Max 1000 record.
-POST /Trade/StopOrders:  Place a stop order at the exchange.
 DELETE /Trade/StopOrders:  Cancels all existing stop orders
-GET /Trade/Orders/{OrderID}:  Gets an order for the logged in trader.
-DELETE /Trade/Orders/{OrderID}:  Cancels an existing order
 DELETE /Trade/StopOrders/{ID}:  Cancels an existing stop order
 ```
 
-**Ping**
+**Recaptcha**
 
-Maximum allowed requests per minute: 70
-
-Applicable to:
-
-```
-POST /Ping Post a string, then get it back.
-```
-
-**Register**
-
-Maximum allowed requests per minute: 3
+Maximum allowed requests per minute: 150
 
 Applicable to:
 
 ```
-POST /RegisterUser:  Initial trader registration.
+POST /Public/Contact: Post a contact.
 ```
 
-**Reset password**
-
-Maximum allowed requests per minute: 10
-
-Applicable to:
-
-```
-POST /Auth/ResetPassword:  Reset password
-
-```
-**Withdrawal**
-
-Maximum allowed requests per minute: 10
-
-Applicable to:
-
-```
-GET /Balance/Withdrawals Get all account withdrawals, including wire, okpay digital currency, of the logged in user
-POST /Okpay/Withdrawal Withdraw flat currency through Okpay
-POST /ElectronicWallet/Withdrawals/{DigiCurrency} Request a transfer from the traders account to an external address. This is only available for crypto currencies.
-
-```
-
-** Note: For all APIs other than Public ones, the default allowed rate is 150 requests per minute.** 
+**Note: There is no rate limit on any public API.** 
 
 
 ##System Logout
