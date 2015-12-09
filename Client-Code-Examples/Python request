@@ -16,7 +16,7 @@ POST Trade/Orders
   def __init__(self):
   self.key = ""
   self.secret = ""
-  self.apiUrl = "https://gatecoin.com/api/"
+  self.apiUrl = "https://www.gatecoin.com/api/"
   
   
   def _send_request(self, command, httpMethod, params={}):
