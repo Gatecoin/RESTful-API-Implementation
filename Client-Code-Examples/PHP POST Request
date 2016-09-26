@@ -4,7 +4,7 @@ API: POST Trade/Orders
 	$secretKey = ‘’;           
 
 	$request_type = 'POST';
-	$uri='https://www.gatecoin.com/api/Trade/Orders';
+	$uri='https://api.gatecoin.com/Trade/Orders';
     $nonce=microtime(true);
 
     if (strcasecmp($request_type, 'POST') ==0 ) {

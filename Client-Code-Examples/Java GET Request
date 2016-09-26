@@ -24,7 +24,7 @@ public class Request {
 	
 		   String publicKey = "";
        String secretKey = "";
-       String baseAddress = "https://www.gatecoin.com/api/";
+       String baseAddress = "https://api.gatecoin.com/";
        String apiPath = "Balance/Balances";
        Date date = new Date();
         

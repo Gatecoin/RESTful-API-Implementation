@@ -24,7 +24,7 @@ class MarketOrder
       string secretKey = "";
       string responseMessage = string.Empty;
       string unixdate = GetUnixDateNow();
-      string baseAddress = "https://www.gatecoin.com/api/";
+      string baseAddress = "https://api.gatecoin.com/";
       string apiPath = "Trade/Orders";
       var request = (HttpWebRequest)WebRequest.Create(baseAddress + apiPath);
     

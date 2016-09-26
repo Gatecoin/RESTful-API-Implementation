@@ -15,7 +15,7 @@ class Gatecoin:
   def __init__(self):
       self.key = ""
       self.secret = ""
-      self.apiUrl = "https://www.gatecoin.com/api/"
+      self.apiUrl = "https://api.gatecoin.com/"
       
   
   def _send_request(self, command, httpMethod, params={}):          

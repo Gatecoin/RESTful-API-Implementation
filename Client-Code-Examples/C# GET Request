@@ -8,7 +8,7 @@ class Program
             string secretKey = "";
             string responseMessage = string.Empty;
             string unixdate = GetUnixDateNow();
-            string baseAddress = "https://www.gatecoin.com/api/";
+            string baseAddress = "https://api.gatecoin.com/";
             string apiPath = "Balance/Balances";
             var request = (HttpWebRequest)WebRequest.Create(baseAddress + apiPath);
             request.Method = "GET";

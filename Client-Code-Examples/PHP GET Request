@@ -4,7 +4,7 @@ API: /BALANCE/BALANCES
     $publickey = '';               
     $secretKey = '';          
 
-    $uri='https://www.gatecoin.com/api/Balance/Balances/';
+    $uri='https://api.gatecoin.com/Balance/Balances/';
 
     $nonce=microtime(true);
     $contentType = '';
