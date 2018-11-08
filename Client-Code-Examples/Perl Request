@@ -1,0 +1,54 @@
+#!/usr/bin/perl
+
+use Time::HiRes qw(gettimeofday);
+use MIME::Base64;
+use Digest::SHA qw(hmac_sha256);
+use JSON;
+use LWP::UserAgent;
+
+sub CreateRequest {
+	my ($type,$uri,$trader_pub,$trader_priv,$content_type,$data) = @_;
+	my $nonce = time();
+	my $url = 'https://api.gatecoin.com/' . $uri;
+	my $message = $type . $url . $content_type . $nonce;
+	my $hash = encode_base64(hmac_sha256(lc($message),$trader_priv));
+
+	my $req = HTTP::Request->new($type => $url);
+	my $lwp = LWP::UserAgent->new;
+
+	if ($type eq "POST") {
+		$req->content_type('application/json');
+		$req->header('Content-type' => 'application/json');
+		$req->content(encode_json($data));
+	}
+
+	$req->header(':API_REQUEST_SIGNATURE' => $hash);
+	$req->header(':API_REQUEST_DATE' => $nonce);
+	$req->header(':API_PUBLIC_KEY' => $trader_pub);
+
+	my $res = $lwp->request($req);
+	my $json = decode_json($res->decoded_content);
+
+	if ($res->is_success)  {
+		return $json;
+	} else {
+		return undef;
+	}
+}
+
+my $trader_pub = "";
+my $trader_priv = "";
+
+# get balance
+my $balance = CreateRequest('GET','Balance/Balances/BTC',$trader_pub,$trader_priv);
+
+# create buy order
+my $data = {
+	'code' => 'BTCEUR',
+	'way' => 'bid',
+	'amount' => 1,
+	'price' => 2500
+};
+my $order = CreateRequest('POST','Trade/Orders',$trader_pub,$trader_priv,'application/json',$data);
+
+
